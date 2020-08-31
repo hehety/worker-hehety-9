@@ -17,5 +17,9 @@ jobs:
 
     # 构建镜像
     - name: Build Docker Image
+      env:
+        DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+        DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
       run: |
-        docker run -v $PWD:/worker hehety/cx:latest cx worker -d
+        docker login registry.cn-hongkong.aliyuncs.com -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
+        docker run -v $PWD:/worker registry.cn-hongkong.aliyuncs.com/hehety/digger:latest digger worker -d
